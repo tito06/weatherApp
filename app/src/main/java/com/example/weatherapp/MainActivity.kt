@@ -5,6 +5,7 @@ import android.util.Size
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.RadialGradientShader
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.ViewModel.WeatherViewModel
@@ -41,16 +43,19 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.Cyan
+                    color = Color.White
                 ) {
 
                     Column(modifier = Modifier.fillMaxSize()) {
 
-                        Text(text = "WEATHER APP",
-                            modifier = Modifier.fillMaxWidth(),
-                        fontSize = 30.sp)
+                            Text(
+                                text = "WEATHER APP",
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                fontSize = 30.sp
+                            )
 
-                        Greeting(viewModel)
+                            cenntreAlign(viewModel)
 
 
                     }
@@ -61,22 +66,40 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun cenntreAlign(viewModel: WeatherViewModel){
+    Box(modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center){
+        Greeting(viewModel = viewModel)
+    }
+}
+
 
 @Composable
 fun Greeting(viewModel:WeatherViewModel) {
     var data = ""
-
+    var temp = ""
     viewModel.weatherData.observe(LocalLifecycleOwner.current, {
 
          data = it.description
+         temp = it.temperature
 
     })
 
 
+    Column {
 
-    Text(
-        text = "temp -> $data",
-    )
+
+        Text(
+            text = "today's temp -> $temp",
+            fontSize = 35.sp
+        )
+
+
+        Text(
+            text = "description -> $data",
+        )
+    }
 }
 
 @Preview(showBackground = true)
